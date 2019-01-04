@@ -49,15 +49,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.lo
     private void submitForm() {
         String email = editText_email.getText().toString().trim();
         String password = editText_password.getText().toString().trim();
-        if(!loginPresenter.setUserNameError(email)){
-            return;
-        }
 
-        if (!loginPresenter.setPasswordError(password)) {
-            return;
-        }
-
-        Toast.makeText(getApplicationContext(), "Go to next Page!", Toast.LENGTH_SHORT).show();
+        loginPresenter.doLogin(email, password);
     }
 
     private void requestFocus(View view) {
@@ -67,27 +60,36 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.lo
     }
 
     @Override
-    public void getUsernameError() {
-        emailInputLayout.setError("Enter Valid Email");
-       // Toast.makeText(this,"Enter Valid EmailId.",Toast.LENGTH_LONG).show();
+    public void displayEmptyEmailError() {
+        emailInputLayout.setError("Email can not be empty.");
+        // Toast.makeText(this,"Enter Valid EmailId.",Toast.LENGTH_LONG).show();
         requestFocus(editText_email);
     }
 
     @Override
-    public void setUserNameErrorEnable() {
-        emailInputLayout.setErrorEnabled(false);
+    public void displayInvalidEmailError() {
+        emailInputLayout.setError("Enter valid Email.");
+        // Toast.makeText(this,"Enter Valid EmailId.",Toast.LENGTH_LONG).show();
+        requestFocus(editText_email);
     }
 
     @Override
-    public void setPasswordErrorEnable() {
-        passwordInputLayout.setErrorEnabled(false);
-    }
-
-    @Override
-    public void getPasswordError() {
+    public void displayEmptyPasswordError() {
         //Toast.makeText(this,"Enter Valid password.",Toast.LENGTH_LONG).show();
-        passwordInputLayout.setError("Enter password");
+        passwordInputLayout.setError("Password can not be empty.");
         requestFocus(editText_password);
+    }
+
+    @Override
+    public void displayInvalidPasswordError() {
+        //Toast.makeText(this,"Enter Valid password.",Toast.LENGTH_LONG).show();
+        passwordInputLayout.setError("Enter valid password.");
+        requestFocus(editText_password);
+    }
+
+    @Override
+    public void successResult() {
+        Toast.makeText(this,"Login successfully.",Toast.LENGTH_LONG).show();
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -108,9 +110,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.lo
             switch (view.getId()) {
                 case R.id.editText_email:
                     emailInputLayout.setError(null);
+                    emailInputLayout.setErrorEnabled(false);
                     break;
                 case R.id.editText_password:
                     passwordInputLayout.setError(null);
+                    passwordInputLayout.setErrorEnabled(false);
                     break;
             }
         }

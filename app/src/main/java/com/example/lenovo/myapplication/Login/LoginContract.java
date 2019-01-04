@@ -3,14 +3,14 @@ package com.example.lenovo.myapplication.Login;
  class LoginContract {
 
     interface loginViewContract {
-        void getUsernameError();
-        void getPasswordError();
-        void setUserNameErrorEnable();
-        void setPasswordErrorEnable();
+        void displayEmptyEmailError();
+        void displayInvalidEmailError();
+        void displayEmptyPasswordError();
+        void displayInvalidPasswordError();
+        void successResult();
     }
 
     interface loginPresenterContract {
-        boolean setUserNameError(String email);
-        boolean setPasswordError(String password);
+        void doLogin(String userName, String password);
     }
 }

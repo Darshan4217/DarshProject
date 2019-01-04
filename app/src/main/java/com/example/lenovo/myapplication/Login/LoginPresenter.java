@@ -10,30 +10,28 @@ public class LoginPresenter implements LoginContract.loginPresenterContract {
     }
 
     @Override
-    public boolean setUserNameError(String email) {
-        if (email.isEmpty() || !isValidEmail(email)) {
-            loginView.getUsernameError();
-            return false ;
+    public void doLogin(String email, String password) {
+        if (email.isEmpty()){
+            loginView.displayEmptyEmailError();
+            return;
         }
-        else {
-            loginView.setUserNameErrorEnable();
+        if(!isValidEmail(email)){
+            loginView.displayInvalidEmailError();
+            return;
         }
-        return true ;
+        if(password.isEmpty()){
+            loginView.displayEmptyPasswordError();
+            return;
+        }
+        if(password.length()<6){
+            loginView.displayInvalidPasswordError();
+            return;
+        }
+
+        loginView.successResult();
     }
 
-    @Override
-    public boolean setPasswordError(String password) {
-        if(password.isEmpty() || (password.length() < 6)){
-            loginView.getPasswordError();
-            return false;
-        }
-        else {
-            loginView.setPasswordErrorEnable();
-        }
-        return true;
-    }
-
-        private static boolean isValidEmail(String email) {
+    private static boolean isValidEmail(String email) {
             return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
         }
 }
