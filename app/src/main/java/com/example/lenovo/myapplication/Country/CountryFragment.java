@@ -12,10 +12,10 @@ import com.example.lenovo.myapplication.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CountryList extends Fragment {
+public class CountryFragment extends Fragment {
 
 
-    public CountryList() {
+    public CountryFragment() {
         // Required empty public constructor
     }
 
