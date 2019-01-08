@@ -1,4 +1,5 @@
 package com.example.lenovo.myapplication.Login;
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.*;
+import com.example.lenovo.myapplication.DashBoardActivity;
+import com.example.lenovo.myapplication.MainActivity;
 import com.example.lenovo.myapplication.R;
 /**
  * A login screen that offers login via email/password.
@@ -89,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.lo
 
     @Override
     public void successResult() {
+        Intent i = new Intent(this, DashBoardActivity.class);
+        startActivity(i);
         Toast.makeText(this,"Login successfully.",Toast.LENGTH_LONG).show();
     }
 
