@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import com.example.lenovo.myapplication.Country.CountryDetailFragment;
 import com.example.lenovo.myapplication.Country.CountryFragment;
 
 public class DashBoardActivity extends AppCompatActivity
@@ -36,9 +38,13 @@ public class DashBoardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        //Add to back stack is not called because it shows empty framelayout
         Fragment fragment = new CountryFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                .add(R.id.fragment_layout, fragment)
+                .commit();
+
     }
 
     @Override
@@ -47,14 +53,19 @@ public class DashBoardActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            FragmentManager fm = getFragmentManager();
-            int count = fm.getBackStackEntryCount();
 
-            if(count >0){
-                fm.popBackStack();
-            }else {
+            // This code is written for toolbar Updation when back button pressed
+            Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(getClass().getSimpleName());
+            if (currentFragment instanceof CountryDetailFragment) {
+
+            }
+
+            int count = getSupportFragmentManager().getBackStackEntryCount();
+            if (count > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
                 if (doubleBackToExitPressedOnce) {
-                   finish();
+                    finish();
                     return;
                 }
 
@@ -69,9 +80,8 @@ public class DashBoardActivity extends AppCompatActivity
                     }
                 }, 2000);
             }
-            }
         }
-
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,6 +101,11 @@ public class DashBoardActivity extends AppCompatActivity
         if (id == R.id.action_Notifications) {
             return true;
         }
+        if(id == android.R.id.home){
+            Toast.makeText(this, "Back from fragment", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -102,10 +117,14 @@ public class DashBoardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Country) {
-            // Handle the camera action
+
+            //Add to back stack is not called because it shows empty framelayout and hide
+            //hide method called becuase firt time country fragment added whithout clicking on menu so need to remove
             Fragment fragment = new CountryFragment();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                    .add(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName())
+                    .hide(fragment).commit();
+
         } else if (id == R.id.nav_Opportunity) {
 
         } else if (id == R.id.nav_Gallery) {
@@ -125,5 +144,13 @@ public class DashBoardActivity extends AppCompatActivity
 
     public void hideToolbarBackArrow(){
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    public void addFragment(Fragment currentFragment, Fragment newFragment){
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_layout, newFragment)
+                .addToBackStack(null)
+                .hide(currentFragment)
+                .commit();
     }
 }
