@@ -17,6 +17,8 @@ import com.example.lenovo.myapplication.R;
  */
 public class CountryDetailFragment extends Fragment {
 
+    public static final int REQUEST_CODE = 1000;
+
     View view;
 
     public CountryDetailFragment() {
@@ -42,4 +44,12 @@ public class CountryDetailFragment extends Fragment {
         ((DashBoardActivity)getActivity()).showToolbarBackArrow();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Fragment targetFragment = getTargetFragment();
+        if (targetFragment != null) {
+            targetFragment.onActivityResult(getTargetRequestCode(), 100, null);
+        }
+    }
 }

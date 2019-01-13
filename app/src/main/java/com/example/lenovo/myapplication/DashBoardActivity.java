@@ -1,6 +1,5 @@
 package com.example.lenovo.myapplication;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -14,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import com.example.lenovo.myapplication.Country.CountryDetailFragment;
 import com.example.lenovo.myapplication.Country.CountryFragment;
 
@@ -22,20 +22,28 @@ public class DashBoardActivity extends AppCompatActivity
 
     boolean doubleBackToExitPressedOnce = false;
 
+    public ActionBarDrawerToggle toggle;
+    public Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DashBoardActivity.this, "Hello", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
@@ -49,15 +57,13 @@ public class DashBoardActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
             // This code is written for toolbar Updation when back button pressed
             Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(getClass().getSimpleName());
             if (currentFragment instanceof CountryDetailFragment) {
-
             }
 
             int count = getSupportFragmentManager().getBackStackEntryCount();
@@ -139,11 +145,13 @@ public class DashBoardActivity extends AppCompatActivity
     }
 
     public void showToolbarBackArrow(){
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_arrow));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void hideToolbarBackArrow(){
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void addFragment(Fragment currentFragment, Fragment newFragment){
