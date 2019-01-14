@@ -16,38 +16,72 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.lenovo.myapplication.Country.CountryDetailFragment;
 import com.example.lenovo.myapplication.Country.CountryFragment;
+import com.example.lenovo.myapplication.base.BaseActivity;
 
-public class DashBoardActivity extends AppCompatActivity
+public class DashBoardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     boolean doubleBackToExitPressedOnce = false;
+    public Toolbar toolbar;
+    public ActionBarDrawerToggle toggle;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dash_board);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    DrawerLayout drawerLayout;
+
+    private void setupDrawerAndToggle() {
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setDrawerIndicatorEnabled(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
-
-        //Add to back stack is not called because it shows empty framelayout
-        Fragment fragment = new CountryFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_layout, fragment)
-                .commit();
 
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dash_board);
+
+        setupDrawerAndToggle();
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        add(CountryFragment.newInstance());
+    }
+
+
+    @Override
+    protected DrawerLayout getDrawer() {
+        return drawerLayout;
+    }
+
+    @Override
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return toggle;
+    }
+
+   /* @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -82,7 +116,7 @@ public class DashBoardActivity extends AppCompatActivity
             }
         }
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -118,13 +152,14 @@ public class DashBoardActivity extends AppCompatActivity
 
         if (id == R.id.nav_Country) {
 
+            add(CountryFragment.newInstance());
             //Add to back stack is not called because it shows empty framelayout and hide
             //hide method called becuase firt time country fragment added whithout clicking on menu so need to remove
-            Fragment fragment = new CountryFragment();
+           /* Fragment fragment = new CountryFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName())
                     .hide(fragment).commit();
-
+*/
         } else if (id == R.id.nav_Opportunity) {
 
         } else if (id == R.id.nav_Gallery) {
@@ -139,11 +174,13 @@ public class DashBoardActivity extends AppCompatActivity
     }
 
     public void showToolbarBackArrow(){
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_arrow));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void hideToolbarBackArrow(){
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void addFragment(Fragment currentFragment, Fragment newFragment){
