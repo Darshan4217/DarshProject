@@ -59,7 +59,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         getDrawer().addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-
             }
 
             @Override
@@ -74,7 +73,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerStateChanged(int newState) {
-
             }
         });
     }

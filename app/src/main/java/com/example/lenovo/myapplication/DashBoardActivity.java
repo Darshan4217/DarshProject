@@ -1,40 +1,51 @@
 package com.example.lenovo.myapplication;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.lenovo.myapplication.Country.CountryDetailFragment;
 import com.example.lenovo.myapplication.Country.CountryFragment;
 import com.example.lenovo.myapplication.base.BaseActivity;
 
 public class DashBoardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public ActionBarDrawerToggle toggle;
+    private ActionBarDrawerToggle toggle;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
 
-    DrawerLayout drawerLayout;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dash_board);
 
-    public Toolbar toolbar;
+        setupDrawerAndToggle();
+        setupNavigationViewMenus();
+        add(CountryFragment.newInstance());
+    }
+
+    private void setupNavigationViewMenus() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+    }
 
     private void setupDrawerAndToggle() {
-
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -52,22 +63,6 @@ public class DashBoardActivity extends BaseActivity
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dash_board);
-
-        setupDrawerAndToggle();
-        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
-
-        add(CountryFragment.newInstance());
     }
 
     @Override
@@ -125,26 +120,8 @@ public class DashBoardActivity extends BaseActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void showToolbarBackArrow(){
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_arrow));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void hideToolbarBackArrow(){
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void addFragment(Fragment currentFragment, Fragment newFragment){
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_layout, newFragment)
-                .addToBackStack(null)
-                .hide(currentFragment)
-                .commit();
     }
 }

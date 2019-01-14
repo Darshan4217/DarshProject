@@ -12,12 +12,17 @@ public class AddFragmentHandler {
 
     private final FragmentManager fragmentManager;
 
-    public AddFragmentHandler(FragmentManager fragmentManager) {
+    AddFragmentHandler(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
+    /**
+     * Add fragment to the frame layout.
+     * @param fragment fragment instance to be added.
+     */
     public void add(BaseFragment fragment) {
-        //don't add a fragment of the same type on top of itself.
+
+        //Don't add a fragment of the same type on top of itself.
         BaseFragment currentFragment = getCurrentFragment();
         if (currentFragment != null) {
             if (currentFragment.getClass() == fragment.getClass()) {
@@ -32,11 +37,18 @@ public class AddFragmentHandler {
         fragmentTransaction.commit();
     }
 
+    /**
+     * This method will return current fragment available on top of the stack.
+     * @return Fragment instance of type BaseFragment
+     */
     @Nullable
     public BaseFragment getCurrentFragment() {
+
+        // If Stack is empty, then no fragments available.
         if (fragmentManager.getBackStackEntryCount() == 0) {
             return null;
         }
+
         FragmentManager.BackStackEntry currentEntry = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1);
 
         String tag = currentEntry.getName();
