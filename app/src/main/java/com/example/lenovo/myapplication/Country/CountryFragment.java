@@ -12,19 +12,30 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
 import com.example.lenovo.myapplication.DashBoardActivity;
 import com.example.lenovo.myapplication.R;
+import com.example.lenovo.myapplication.base.BackButtonSupportFragment;
+import com.example.lenovo.myapplication.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CountryFragment extends Fragment {
+public class CountryFragment extends BaseFragment implements BackButtonSupportFragment {
 
     View view;
     Button btnDetail;
     FrameLayout countryListLayout;
+    private Toast toast;
+    private boolean consumingBackPress = true;
+
     public CountryFragment() {
         // Required empty public constructor
+    }
+
+    public static CountryFragment newInstance() {
+        return new CountryFragment();
     }
 
     @Override
@@ -40,10 +51,9 @@ public class CountryFragment extends Fragment {
         btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Fragment countryDetailsFragment = new CountryDetailFragment();
                 countryDetailsFragment.setTargetFragment(CountryFragment.this, CountryDetailFragment.REQUEST_CODE);
-                ((DashBoardActivity)getActivity()).addFragment(CountryFragment.this, countryDetailsFragment);
+                add(CountryDetailFragment.newInstance());
             }
         });
         return view;
@@ -56,19 +66,35 @@ public class CountryFragment extends Fragment {
     }
 
     public void updateToolbar(){
-
-        ((DashBoardActivity) getActivity()).getSupportActionBar().setTitle("CountryList");
-        ((DashBoardActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((DashBoardActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-
-        ((DashBoardActivity)getActivity()).hideToolbarBackArrow();
     }
 
-
+    /* Not Required now. We will check later.*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == CountryDetailFragment.REQUEST_CODE) {
             updateToolbar();
         }
+    }
+
+    @Override
+    protected String getTitle() {
+        return "Country List";
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        //return true when handled by yourself
+        if (consumingBackPress) {
+            //This is actually a terrible thing to do and totally against the guidelines
+            // Ideally you shouldn't handle the backpress ever, so really think twice about what
+            // you are doing and whether you are getting hacky
+            toast = Toast.makeText(getActivity(), "Press back once more to quit the application", Toast.LENGTH_LONG);
+            toast.show();
+            consumingBackPress = false;
+            return true; //consumed
+        }
+        toast.cancel();
+        return false; //delegated
+
     }
 }

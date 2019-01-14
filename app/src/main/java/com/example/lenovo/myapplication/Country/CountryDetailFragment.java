@@ -11,11 +11,12 @@ import android.view.ViewGroup;
 
 import com.example.lenovo.myapplication.DashBoardActivity;
 import com.example.lenovo.myapplication.R;
+import com.example.lenovo.myapplication.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CountryDetailFragment extends Fragment {
+public class CountryDetailFragment extends BaseFragment {
 
     public static final int REQUEST_CODE = 1000;
 
@@ -40,8 +41,10 @@ public class CountryDetailFragment extends Fragment {
     }
 
     public void updateToolbar(){
-        ((DashBoardActivity) getActivity()).getSupportActionBar().setTitle("CountryDetails");
-        ((DashBoardActivity)getActivity()).showToolbarBackArrow();
+    }
+
+    public static CountryDetailFragment newInstance() {
+        return new CountryDetailFragment();
     }
 
     @Override
@@ -51,5 +54,10 @@ public class CountryDetailFragment extends Fragment {
         if (targetFragment != null) {
             targetFragment.onActivityResult(getTargetRequestCode(), 100, null);
         }
+    }
+
+    @Override
+    protected String getTitle() {
+        return "Country Details";
     }
 }

@@ -16,77 +16,68 @@ import android.widget.Toast;
 
 import com.example.lenovo.myapplication.Country.CountryDetailFragment;
 import com.example.lenovo.myapplication.Country.CountryFragment;
+import com.example.lenovo.myapplication.base.BaseActivity;
 
-public class DashBoardActivity extends AppCompatActivity
+public class DashBoardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    boolean doubleBackToExitPressedOnce = false;
-
     public ActionBarDrawerToggle toggle;
+
+    DrawerLayout drawerLayout;
+
     public Toolbar toolbar;
+
+    private void setupDrawerAndToggle() {
+
+        toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setDrawerIndicatorEnabled(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(DashBoardActivity.this, "Hello", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        setupDrawerAndToggle();
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        //Add to back stack is not called because it shows empty framelayout
-        Fragment fragment = new CountryFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_layout, fragment)
-                .commit();
-
+        add(CountryFragment.newInstance());
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            // This code is written for toolbar Updation when back button pressed
-            Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(getClass().getSimpleName());
-            if (currentFragment instanceof CountryDetailFragment) {
-            }
+    protected DrawerLayout getDrawer() {
+        return drawerLayout;
+    }
 
-            int count = getSupportFragmentManager().getBackStackEntryCount();
-            if (count > 0) {
-                getSupportFragmentManager().popBackStack();
-            } else {
-                if (doubleBackToExitPressedOnce) {
-                    finish();
-                    return;
-                }
-
-                this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
-            }
-        }
+    @Override
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return toggle;
     }
 
     @Override
@@ -124,12 +115,7 @@ public class DashBoardActivity extends AppCompatActivity
 
         if (id == R.id.nav_Country) {
 
-            //Add to back stack is not called because it shows empty framelayout and hide
-            //hide method called becuase firt time country fragment added whithout clicking on menu so need to remove
-            Fragment fragment = new CountryFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName())
-                    .hide(fragment).commit();
+            add(CountryFragment.newInstance());
 
         } else if (id == R.id.nav_Opportunity) {
 
