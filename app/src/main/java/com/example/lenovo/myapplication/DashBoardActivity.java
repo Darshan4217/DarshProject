@@ -1,53 +1,78 @@
 package com.example.lenovo.myapplication;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 import com.example.lenovo.myapplication.Country.CountryFragment;
+import com.example.lenovo.myapplication.base.BaseActivity;
 
-public class DashBoardActivity extends AppCompatActivity
+public class DashBoardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dash_board);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    public Toolbar toolbar;
+    public ActionBarDrawerToggle toggle;
+
+    DrawerLayout drawerLayout;
+
+    private void setupDrawerAndToggle() {
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setDrawerIndicatorEnabled(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dash_board);
+
+        setupDrawerAndToggle();
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        Fragment fragment = new CountryFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        add(CountryFragment.newInstance());
     }
 
 
+    @Override
+    protected DrawerLayout getDrawer() {
+        return drawerLayout;
+    }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return toggle;
     }
 
     @Override
@@ -65,7 +90,12 @@ public class DashBoardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_Notifications) {
+            return true;
+        }
+        if(id == android.R.id.home){
+            Toast.makeText(this, "Back from fragment", Toast.LENGTH_SHORT).show();
+            onBackPressed();
             return true;
         }
 
@@ -78,24 +108,18 @@ public class DashBoardActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            Fragment fragment = new CountryFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_Country) {
+            add(CountryFragment.newInstance());
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_Opportunity) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_Gallery) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_AboutUs) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
