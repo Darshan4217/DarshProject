@@ -1,7 +1,5 @@
 package com.example.lenovo.myapplication.Country;
 
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,9 +25,7 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
     FrameLayout countryListLayout;
     private Toast toast;
     private boolean consumingBackPress = true;
-    public CountryFragment() {
-        // Required empty public constructor
-    }
+
     public static CountryFragment newInstance() {
         return new CountryFragment();
     }
@@ -44,12 +40,6 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
         btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // ((DashBoardActivity)getActivity()).addFragment(CountryFragment.this, new CountryDetailFragment());
-              /*  Fragment countryDetailsFragment = new CountryDetailFragment();
-                countryDetailsFragment.setTargetFragment(CountryFragment.this, CountryDetailFragment.REQUEST_CODE);
-                ((DashBoardActivity)getActivity()).addFragment(CountryFragment.this, countryDetailsFragment);*/
-                Fragment countryDetailsFragment = new CountryDetailFragment();
-                countryDetailsFragment.setTargetFragment(CountryFragment.this, CountryDetailFragment.REQUEST_CODE);
                 add(CountryDetailFragment.newInstance());
             }
         });
@@ -59,22 +49,6 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        updateToolbar();
-    }
-
-    public void updateToolbar(){
-       /* ((DashBoardActivity) getActivity()).getSupportActionBar().setTitle("CountryList");
-        ((DashBoardActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((DashBoardActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-        ((DashBoardActivity)getActivity()).hideToolbarBackArrow();*/
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CountryDetailFragment.REQUEST_CODE) {
-            updateToolbar();
-        }
     }
 
     @Override

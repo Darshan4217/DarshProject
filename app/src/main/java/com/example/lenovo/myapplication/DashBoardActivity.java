@@ -1,27 +1,21 @@
 package com.example.lenovo.myapplication;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import com.example.lenovo.myapplication.Country.CountryDetailFragment;
 import com.example.lenovo.myapplication.Country.CountryFragment;
 import com.example.lenovo.myapplication.base.BaseActivity;
 
 public class DashBoardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    boolean doubleBackToExitPressedOnce = false;
     public Toolbar toolbar;
     public ActionBarDrawerToggle toggle;
 
@@ -81,42 +75,6 @@ public class DashBoardActivity extends BaseActivity
         return toggle;
     }
 
-   /* @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-
-            // This code is written for toolbar Updation when back button pressed
-            Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(getClass().getSimpleName());
-            if (currentFragment instanceof CountryDetailFragment) {
-
-            }
-
-            int count = getSupportFragmentManager().getBackStackEntryCount();
-            if (count > 0) {
-                getSupportFragmentManager().popBackStack();
-            } else {
-                if (doubleBackToExitPressedOnce) {
-                    finish();
-                    return;
-                }
-
-                this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        doubleBackToExitPressedOnce = false;
-                    }
-                }, 2000);
-            }
-        }
-    }
-*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -151,15 +109,8 @@ public class DashBoardActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Country) {
-
             add(CountryFragment.newInstance());
-            //Add to back stack is not called because it shows empty framelayout and hide
-            //hide method called becuase firt time country fragment added whithout clicking on menu so need to remove
-           /* Fragment fragment = new CountryFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_layout, fragment, fragment.getClass().getSimpleName())
-                    .hide(fragment).commit();
-*/
+
         } else if (id == R.id.nav_Opportunity) {
 
         } else if (id == R.id.nav_Gallery) {
@@ -168,26 +119,8 @@ public class DashBoardActivity extends BaseActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void showToolbarBackArrow(){
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_arrow));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void hideToolbarBackArrow(){
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.baseline_menu));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void addFragment(Fragment currentFragment, Fragment newFragment){
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_layout, newFragment)
-                .addToBackStack(null)
-                .hide(currentFragment)
-                .commit();
     }
 }
