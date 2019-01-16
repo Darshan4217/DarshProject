@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+import com.example.lenovo.myapplication.Country.CountryFragment;
 import com.example.lenovo.myapplication.MainActivity;
 import com.example.lenovo.myapplication.utils.Config;
 import com.example.lenovo.myapplication.utils.NotificationUtils;
@@ -124,7 +125,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationUtils.playNotificationSound();
             } else {
                 // app is in background, show the notification in notification tray
-                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent resultIntent = new Intent(getApplicationContext(), CountryFragment.class);
                 resultIntent.putExtra("message", message);
 
                 // check for image attachment

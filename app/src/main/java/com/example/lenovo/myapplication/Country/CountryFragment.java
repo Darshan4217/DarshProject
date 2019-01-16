@@ -48,6 +48,8 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_country_list, container, false);
         btnDetail = view.findViewById(R.id.btnDetail);
+        txtRegId = view.findViewById(R.id.txt_reg_id);
+        txtMessage = view.findViewById(R.id.txt_push_message);
 
         btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
