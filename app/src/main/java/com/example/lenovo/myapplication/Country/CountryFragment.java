@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -34,7 +33,7 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_country_list, container, false);
+        view = inflater.inflate(R.layout.fragment_country_list, container, false);
         btnDetail = view.findViewById(R.id.btnDetail);
 
         btnDetail.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +42,7 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
                 add(CountryDetailFragment.newInstance());
             }
         });
+
         return view;
     }
 
@@ -72,4 +72,5 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
         return false; //delegated
 
     }
+
 }

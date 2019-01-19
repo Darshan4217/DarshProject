@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.example.lenovo.myapplication.Country.CountryFragment;
 import com.example.lenovo.myapplication.base.BaseActivity;
+import com.example.lenovo.myapplication.notification.NotificationFragment;
 
 public class DashBoardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -111,7 +112,8 @@ public class DashBoardActivity extends BaseActivity
         if (id == R.id.nav_Country) {
             add(CountryFragment.newInstance());
 
-        } else if (id == R.id.nav_Opportunity) {
+        } else if (id == R.id.nav_Notification) {
+            add(NotificationFragment.newInstance());
 
         } else if (id == R.id.nav_Gallery) {
 
