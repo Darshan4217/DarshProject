@@ -9,9 +9,9 @@
                 android:icon="@drawable/ic_menu_camera"
                 android:title="Country"/>
         <item
-                android:id="@+id/nav_Opportunity"
+                android:id="@+id/nav_Notification"
                 android:icon="@drawable/ic_menu_gallery"
-                android:title="Opportunity"/>
+                android:title="Notifications"/>
         <item
                 android:id="@+id/nav_Gallery"
                 android:icon="@drawable/ic_menu_slideshow"
