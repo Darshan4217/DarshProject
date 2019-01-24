@@ -1,6 +1,6 @@
 package com.example.lenovo.myapplication.Retrofit;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 
 import java.util.List;
 
@@ -12,9 +12,13 @@ public class CountryRepositoryImplementation implements  Repository.CountryRepos
         this.countryApiService = countryApiService;
 
     }
-    @Override
+   /* @Override
     public Call<List<CountryList>> getCountryList() {
+        return countryApiService.getAllCountry();
+    }*/
 
+    @Override
+    public Observable<List<CountryList>> getCountryList() {
         return countryApiService.getAllCountry();
     }
 }

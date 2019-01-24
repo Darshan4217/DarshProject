@@ -4,9 +4,14 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 import java.util.List;
+import retrofit2.http.GET;
+import io.reactivex.Observable;
 
 public interface CountryApiService {
 
+    /*@GET("/photos")
+    Call<List<CountryList>> getAllCountry();*/
+
     @GET("/photos")
-    Call<List<CountryList>> getAllCountry();
+    Observable<List<CountryList>> getAllCountry();
 }

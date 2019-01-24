@@ -5,6 +5,11 @@ import android.widget.Toast;
 import com.example.lenovo.myapplication.MainActivity;
 import com.example.lenovo.myapplication.Retrofit.CountryList;
 import com.example.lenovo.myapplication.Retrofit.CountryRepositoryImplementation;
+import io.reactivex.Observer;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,8 +27,38 @@ public class CountryPresenter implements CountryContract.CountryPresenterContrac
     }
 
     @Override
+    public Observer<List<CountryList>> getCountry() {
+
+         countryRepositoryImplementation.getCountryList().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<CountryList>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<CountryList> countryLists) {
+                        countryViewContract.hideProgressDialog();
+                        countryViewContract.getCountryData(countryLists);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        return null;
+    }
+    /*@Override
     public void getCountry() {
-        /*Create handle for the RetrofitInstance interface*/
         Call<List<CountryList>> call = countryRepositoryImplementation.getCountryList();
         countryViewContract.showProgressDialog();
         call.enqueue(new Callback<List<CountryList>>() {
@@ -39,5 +74,5 @@ public class CountryPresenter implements CountryContract.CountryPresenterContrac
                 countryViewContract.hideProgressDialog();
             }
         });
-    }
+    }*/
 }

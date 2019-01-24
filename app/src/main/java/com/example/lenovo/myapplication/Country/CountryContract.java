@@ -1,10 +1,11 @@
 package com.example.lenovo.myapplication.Country;
 
 import com.example.lenovo.myapplication.Retrofit.CountryList;
+import io.reactivex.Observer;
 
 import java.util.List;
 
-public class CountryContract {
+class CountryContract {
 
     interface CountryViewContract{
 
@@ -15,7 +16,8 @@ public class CountryContract {
 
     interface  CountryPresenterContract{
 
-        void getCountry();
+       // void getCountry();
+        Observer<List<CountryList>> getCountry();
 
     }
 }
