@@ -1,5 +1,6 @@
 package com.example.lenovo.myapplication.Retrofit;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -13,5 +14,5 @@ public interface CountryApiService {
     Call<List<CountryList>> getAllCountry();*/
 
     @GET("/photos")
-    Observable<List<CountryList>> getAllCountry();
+    Single<List<CountryList>> getAllCountry();
 }

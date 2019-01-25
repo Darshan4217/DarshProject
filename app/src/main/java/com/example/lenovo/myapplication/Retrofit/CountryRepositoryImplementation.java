@@ -1,6 +1,7 @@
 package com.example.lenovo.myapplication.Retrofit;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class CountryRepositoryImplementation implements  Repository.CountryRepos
     }*/
 
     @Override
-    public Observable<List<CountryList>> getCountryList() {
+    public Single<List<CountryList>> getCountryList() {
         return countryApiService.getAllCountry();
     }
 }

@@ -17,7 +17,7 @@ class CountryContract {
     interface  CountryPresenterContract{
 
        // void getCountry();
-        Observer<List<CountryList>> getCountry();
+        void getCountry();
 
     }
 }
