@@ -7,6 +7,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class RetrofitClientInstance {
 
@@ -16,7 +17,11 @@ public class RetrofitClientInstance {
     private static final String AUTH = "Basic "+Base64.encodeToString(("darshan:123456").getBytes(), Base64.NO_WRAP);
 
     //////This code is for login request only if request is except than login we will use new Retrofit instance and interceptor
-    private static OkHttpClient okHttpClient_login = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
+    private static OkHttpClient okHttpClient_login = new OkHttpClient().newBuilder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30,TimeUnit.SECONDS)
+            .addInterceptor(new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request originalRequest = chain.request();
@@ -26,6 +31,7 @@ public class RetrofitClientInstance {
                     .addHeader("content-type", "application/json")
                     .method(originalRequest.method(),originalRequest.body())
                     .build();
+
             return chain.proceed(request);
         }
     }).build();
@@ -43,7 +49,11 @@ public class RetrofitClientInstance {
     }
 
 
-    private static OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
+    private static OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30,TimeUnit.SECONDS)
+            .addInterceptor(new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request originalRequest = chain.request();
