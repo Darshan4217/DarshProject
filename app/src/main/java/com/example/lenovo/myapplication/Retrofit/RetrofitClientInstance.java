@@ -1,7 +1,12 @@
 package com.example.lenovo.myapplication.Retrofit;
 
+import android.content.Context;
 import android.util.Base64;
-import okhttp3.*;
+import com.example.lenovo.myapplication.base.ErrorHandlerInterceptor;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -11,32 +16,37 @@ import java.util.concurrent.TimeUnit;
 
 public class RetrofitClientInstance {
 
+    private OkHttpClient okHttpClient_login;
+
     private static Retrofit retrofit_login;
     private static Retrofit retrofit;
     private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
     private static final String AUTH = "Basic "+Base64.encodeToString(("darshan:123456").getBytes(), Base64.NO_WRAP);
 
-    //////This code is for login request only if request is except than login we will use new Retrofit instance and interceptor
-    private static OkHttpClient okHttpClient_login = new OkHttpClient().newBuilder()
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .connectTimeout(30,TimeUnit.SECONDS)
-            .addInterceptor(new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request originalRequest = chain.request();
-            Request request = originalRequest.newBuilder()
-                   // .addHeader("Autherization", Credentials.basic("",""))
-                    .addHeader("Autherization", AUTH)
-                    .addHeader("content-type", "application/json")
-                    .method(originalRequest.method(),originalRequest.body())
-                    .build();
+    public RetrofitClientInstance(Context mContext) {
+        //////This code is for login request only if request is except than login we will use new Retrofit instance and interceptor
+        okHttpClient_login = new OkHttpClient().newBuilder()
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30,TimeUnit.SECONDS)
+                .addInterceptor(new ErrorHandlerInterceptor(mContext))
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request originalRequest = chain.request();
+                        Request request = originalRequest.newBuilder()
+                                // .addHeader("Autherization", Credentials.basic("",""))
+                                .addHeader("Autherization", AUTH)
+                                .addHeader("content-type", "application/json")
+                                .method(originalRequest.method(),originalRequest.body())
+                                .build();
 
-            return chain.proceed(request);
-        }
-    }).build();
+                        return chain.proceed(request);
+                    }
+                }).build();
+    }
 
-    public static Retrofit getRetrofitInstanceLogin() {
+    public Retrofit getRetrofitInstanceLogin() {
         if (retrofit_login == null) {
             retrofit_login = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)

@@ -54,7 +54,7 @@ public class CountryFragment extends BaseFragment implements BackButtonSupportFr
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading.....");
 
-        CountryApiService service = RetrofitClientInstance.getRetrofitInstanceLogin().create(CountryApiService.class);
+        CountryApiService service = new RetrofitClientInstance(getContext()).getRetrofitInstanceLogin().create(CountryApiService.class);
         countryRepositoryImplementation = new CountryRepositoryImplementation(service);
         countryPresenter = new CountryPresenter(CountryFragment.this, countryRepositoryImplementation);
 
