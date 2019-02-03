@@ -9,8 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Gallery;
 import android.widget.Toast;
 import com.example.lenovo.myapplication.Country.CountryFragment;
+import com.example.lenovo.myapplication.Gallery.GalleryFragment;
 import com.example.lenovo.myapplication.base.BaseActivity;
 import com.example.lenovo.myapplication.notification.NotificationFragment;
 
@@ -62,7 +64,8 @@ public class DashBoardActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        add(CountryFragment.newInstance());
+      //  add(CountryFragment.newInstance());
+        add(GalleryFragment.newInstance());
     }
 
 
@@ -110,13 +113,14 @@ public class DashBoardActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Country) {
-            add(CountryFragment.newInstance());
+            //add(CountryFragment.newInstance());
+            add(GalleryFragment.newInstance());
 
         } else if (id == R.id.nav_Notification) {
             add(NotificationFragment.newInstance());
 
         } else if (id == R.id.nav_Gallery) {
-
+            add(GalleryFragment.newInstance());
         } else if (id == R.id.nav_AboutUs) {
 
         }

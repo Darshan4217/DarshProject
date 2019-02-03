@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              tools:context=".Gallery.GalleryFragment"
+              android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose one of three types:"
+        />
+        <RadioButton
+                android:id="@+id/radioDarshan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Darshan"
+                app:buttonTint="@color/colorRadiobutton"/>
+
+        <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/radioSwanand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Swanaand"
+                app:buttonTint="@color/colorRadiobutton"/>
+        <RadioButton
+                android:id="@+id/radioPabhat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pabhat"
+                app:buttonTint="@color/colorRadiobutton"/>
+    </RadioGroup>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/checkBoxDarshan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:buttonTint="@color/colorRadiobutton"
+                android:text="Darshan"/>
+        <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/checkBoxSwanand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:buttonTint="@color/colorRadiobutton"
+                android:text="Swanand"/>
+        <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/checkBoxPrabhat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:buttonTint="@color/colorRadiobutton"
+                android:text="Prabhat"/>
+    </LinearLayout>
+
+</LinearLayout>
