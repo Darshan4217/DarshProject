@@ -1,19 +1,11 @@
 package com.example.lenovo.myapplication.Country;
 
-import android.support.annotation.NonNull;
-import android.widget.Toast;
-import com.example.lenovo.myapplication.MainActivity;
 import com.example.lenovo.myapplication.Retrofit.CountryList;
 import com.example.lenovo.myapplication.Retrofit.CountryRepositoryImplementation;
-import io.reactivex.Observer;
-import io.reactivex.Observable;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.List;
 
@@ -29,7 +21,6 @@ public class CountryPresenter implements CountryContract.CountryPresenterContrac
 
     @Override
     public void getCountry() {
-
         countryRepositoryImplementation.getCountryList().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
